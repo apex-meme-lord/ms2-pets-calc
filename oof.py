@@ -59,7 +59,7 @@ class PetCalculator(object):
 
         self.last_exp += self.multi * getattr(fodder, 'exp')
         self.count[fodder] += 1
-        self.last_cost = getattr(fodder, 'cost')
+        self.last_cost = getattr(target, 'cost')
         self.cost += self.last_cost
         self.exp += self.last_exp
 
