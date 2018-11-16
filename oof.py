@@ -102,5 +102,7 @@ if __name__ == "__main__":
             stdscr.refresh()
 
             k = stdscr.getch()
-
+        curses.nocbreak()
+        stdscr.keypad(0)
+        curses.echo()
     main_loop()
