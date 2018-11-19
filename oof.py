@@ -6,7 +6,7 @@ D_BONUS = 3000
 
 class _EpicNope(type):
     def __getattr__(cls, key):
-        if key in ('exp',):
+        if key in ('exp', 'market'):
             raise Exception("Nobody would fuse an epic lol")
         else:
             raise AttributeError
@@ -18,16 +18,19 @@ class Pet(object):
     class Normal(Rarity):
         exp = 1500
         cost = 3000
+        market = 5000
     class Rare(Rarity):
         exp = 3000
         cost = 5000
+        market = 50000
     class Exceptional(Rarity):
         exp = 12000
         cost = 10000
+        market = 400000
     class Epic(Rarity):
         __metaclass__ = _EpicNope
         cost = 30000
-        
+
 
 class PetCalculator(object):
     def __init__(self, target):
@@ -59,7 +62,7 @@ class PetCalculator(object):
 
         self.last_exp += self.multi * getattr(fodder, 'exp')
         self.count[fodder] += 1
-        self.last_cost = getattr(target, 'cost')
+        self.last_cost = getattr(self.target, 'cost') + getattr(fodder, 'market')
         self.cost += self.last_cost
         self.exp += self.last_exp
 
@@ -89,9 +92,10 @@ if __name__ == "__main__":
 
             stdscr.addstr(0, 0, "Exp: {} (+{})".format(calc.exp, calc.last_exp))
             stdscr.addstr(1, 0, "Cost (in mesos): {} (+{})".format(calc.cost, calc.last_cost))
-            stdscr.addstr(2, 0, "Bonus remaining: {}".format(calc.bonus))
-            stdscr.addstr(3, 0, "Multiplier: {}".format(calc.multi))
-            stdscr.addstr(6, 0, "Fused: {} normal, {} rare, {} exceptional".format(
+            stdscr.addstr(2, 0, "Last Cost/exp (in mesos): {}".format(calc.last_cost / (calc.last_exp or 1)))
+            stdscr.addstr(3, 0, "Bonus remaining: {}".format(calc.bonus))
+            stdscr.addstr(4, 0, "Multiplier: {}".format(calc.multi))
+            stdscr.addstr(7, 0, "Fused: {} normal, {} rare, {} exceptional".format(
                 calc.count[Pet.Normal],
                 calc.count[Pet.Rare],
                 calc.count[Pet.Exceptional],
@@ -102,7 +106,5 @@ if __name__ == "__main__":
             stdscr.refresh()
 
             k = stdscr.getch()
-        curses.nocbreak()
-        stdscr.keypad(0)
-        curses.echo()
+
     main_loop()
