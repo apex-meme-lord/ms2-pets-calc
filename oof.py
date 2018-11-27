@@ -22,11 +22,11 @@ class Pet(object):
     class Rare(Rarity):
         exp = 3000
         cost = 5000
-        market = 50000
+        market = 40000
     class Exceptional(Rarity):
         exp = 12000
         cost = 10000
-        market = 400000
+        market = 650000
     class Epic(Rarity):
         __metaclass__ = _EpicNope
         cost = 30000
@@ -68,7 +68,7 @@ class PetCalculator(object):
 
 
 if __name__ == "__main__":
-    calc = PetCalculator(Pet.Normal)        
+    calc = PetCalculator(Pet.Epic)        
 
     def main_loop():
         k = 0
