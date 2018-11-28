@@ -104,13 +104,13 @@ class PetCalculator(object):
                 break
             proxy.do_fuse(fodder, last_exp, last_cost)
 
+        self.bonus = proxy.bonus
+        self.multi = proxy.multi
         self.fuse(into)
         self.last_exp += proxy.exp * 0.8
         self.last_cost += proxy.cost
         self.exp += proxy.exp * 0.8
         self.cost += proxy.cost
-        self.bonus = proxy.bonus
-        self.multi = proxy.multi
         for rarity in proxy.count:
             self.count[rarity] += proxy.count[rarity]
 
